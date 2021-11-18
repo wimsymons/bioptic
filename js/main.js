@@ -1,8 +1,13 @@
+// constants
+const alphabet = 'ABCDEFGHIJKLMNROPQRSTUVWXYZabcdefghijklmnropqrstuvwxyz0123456789';
+
 // variables
 var horizontalPercentageOffset = 0; // default L
 var fontSizeRange = [20, 50];
 var speed = 0;
 var textColor = "#000000";
+var elemType = 'A';
+var slideDirection = 'L';
 
 // on load: grootte slider
 document.addEventListener('DOMContentLoaded', function (event) {
@@ -45,14 +50,7 @@ document.getElementById('oog').addEventListener('change', function () {
 
 // inhoud: A(lphabetic)/S(hort)/L(ong)
 document.getElementById('inhoud').addEventListener('change', function () {
-  switch (document.getElementById('inhoud').value) {
-    case 'A':
-      break;
-    case 'S':
-      break;
-    case 'L':
-      break;
-  }
+  elemType = document.getElementById('inhoud').value;
 });
 
 // voorgrond
@@ -73,18 +71,7 @@ document.getElementById('snelheid').addEventListener('change', function () {
 
 // richting: L(eft), R(ight), D(own), U(p), A(ll)
 document.getElementById('richting').addEventListener('change', function () {
-  switch (document.getElementById('richting').value) {
-    case 'L':
-      break;
-    case 'R':
-      break;
-    case 'D':
-      break;
-    case 'U':
-      break;
-    case 'A':
-      break;
-  }
+  slideDirection = document.getElementById('richting').value;
 });
 
 // start
@@ -116,7 +103,20 @@ function changeElement() {
 
   // zet kleur, grootte, locatie
   elem.style = 'color:' + textColor + ';font-size:' + randomFontSize + 'px;top:' + randomY + 'px;left:' + randomX + 'px';
+
+  setText(elem);
 }
 
-// TODO random letter
-var randomLetter = 'A' + Math.floor(Math.random() * 26);
+function setText(element) {
+  switch (elemType) {
+    case 'A':
+      element.innerText = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+      break;
+    case 'S':
+      element.innerText = "Kort";
+      break;
+    case 'L':
+      element.innerText = "Hottentottententententoonstelling";
+      break;
+  }
+}
