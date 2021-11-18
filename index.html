@@ -1,0 +1,84 @@
+<!doctype html>
+<html class="no-js" lang="nl">
+
+<head>
+  <meta charset="utf-8">
+  <title>Bioptic</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/vendor/nouislider-15.5.0.min.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<section id="sidebar">
+  <form>
+    <div>
+      <input type="button" id="openclose" value="<<">
+    </div>
+    <div class="form-group">
+      <label for="oog">Oog</label>
+      <select id="oog">
+        <option value="L">Links</option>
+        <option value="R">Rechts</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="inhoud">Inhoud</label>
+      <select id="inhoud">
+        <option value="A">Letter</option>
+        <option value="S">Kort woord</option>
+        <option value="L">Lang woord</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="grootte">Grootte</label>
+      <div id="grootte"></div>
+    </div>
+    <div class="form-group">
+      <label for="voorgrond">Voorgrondkleur</label>
+      <input type="color" id="voorgrond" value="#000000">
+    </div>
+    <div class="form-group">
+      <label for="achtergrond">Achtergrondkleur</label>
+      <input type="color" id="achtergrond" value="#ffffff">
+    </div>
+    <div class="form-group">
+      <label for="snelheid">Snelheid</label>
+      <input type="range" id="snelheid" min="0" max="60" step="5" value="0">
+    </div>
+    <div class="form-group">
+      <label for="richting">Richting</label>
+      <select id="richting">
+        <option value="L">Links</option>
+        <option value="R">Rechts</option>
+        <option value="D">Onder</option>
+        <option value="U">Boven</option>
+        <option value="A">Alle</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <input type="button" id="start" value="Start">
+      <input type="button" id="stop" value="Stop">
+    </div>
+  </form>
+</section>
+
+<section id="playground">
+  <div id="element">Hey, ik ben hier!</div>
+</section>
+
+<script src="js/vendor/modernizr-3.11.2.min.js"></script>
+<script src="js/vendor/nouislider-15.5.0.min.js"></script>
+<script src="js/plugins.js"></script>
+<script src="js/main.js"></script>
+</body>
+
+</html>
