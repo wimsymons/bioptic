@@ -102,6 +102,7 @@ body {
 
 section#sidebar {
   background-color: skyblue;
+  width: 300px;
 }
 
 section#sidebar.sidebar-closed {
@@ -125,15 +126,40 @@ input#openclose {
   height: 50px
 }
 
+input#start {
+  background-color: green;
+}
+
+input#start.started {
+  background-color: darkgrey;
+}
+
+input#stop {
+  background-color: red;
+}
+
+input#stop.stopped {
+  background-color: darkgrey;
+}
+
 div.form-group {
   margin-bottom: 10px;
   padding: 10px;
+}
+
+div.form-group label {
+  clear: both;
+  display: block;
 }
 
 div#element {
   position: relative;
   top: 0px;
   left: 0px;
+}
+
+div.noUi-target {
+  margin: 50px 15px;
 }
 
 /* ==========================================================================

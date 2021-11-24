@@ -45,9 +45,9 @@
     </div>
     <div class="form-group">
       <label for="snelheid">Snelheid</label>
-      <input type="range" id="snelheid" min="0" max="60" step="5" value="0">
+      <div id="snelheid"></div>
     </div>
-    <div class="form-group">
+    <div class="form-group hidden">
       <label for="richting">Richting</label>
       <select id="richting">
         <option value="L">Links</option>
@@ -59,13 +59,13 @@
     </div>
     <div class="form-group">
       <input type="button" id="start" value="Start">
-      <input type="button" id="stop" value="Stop">
+      <input type="button" id="stop" value="Stop" class="stopped">
     </div>
   </form>
 </section>
 
 <section id="playground">
-  <div id="element">Hey, ik ben hier!</div>
+  <div id="element"></div>
 </section>
 
 <script src="js/vendor/modernizr-3.11.2.min.js"></script>

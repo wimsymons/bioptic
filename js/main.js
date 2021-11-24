@@ -1,31 +1,81 @@
 // constants
 const alphabet = 'ABCDEFGHIJKLMNROPQRSTUVWXYZabcdefghijklmnropqrstuvwxyz0123456789';
+const defaultSpeed = 5;
+const maxSpeed = 20;
+const speedMultiplier = 100;
 
 // variables
-var fontSizeRange = [20, 50];
-var speed = 0;
+var intervalId;
+var fontSizeRange = [30, 70];
+var speed = defaultSpeed;
 var textColor = "#000000";
 var elemType = 'A';
 var slideDirection = 'L';
 
-// on load: grootte slider
+// on load: grootte + snelheid slider
 document.addEventListener('DOMContentLoaded', function () {
-  var slider = document.getElementById('grootte');
-  noUiSlider.create(slider, {
+  var fontSizeSlider = document.getElementById('grootte');
+  noUiSlider.create(fontSizeSlider, {
     start: fontSizeRange,
     connect: true,
     range: {
       'min': 10,
-      'max': 80
+      'max': 100
     },
-    step: 5
+    step: 5,
+    format: {
+      from: function (value) {
+        return Number(parseInt(value));
+      },
+      to: function (value) {
+        return parseInt(value).toString();
+      }
+    },
+    tooltips: [true, true]
   });
-  // grootte
-  slider.noUiSlider.on('change', function (values) {
+  fontSizeSlider.noUiSlider.on('change', function (values) {
     fontSizeRange = [parseInt(values[0]), parseInt(values[1])];
     console.log("New font size range", fontSizeRange);
     changeElement();
   });
+
+  var speedSlider = document.getElementById('snelheid');
+  noUiSlider.create(speedSlider, {
+    start: defaultSpeed,
+    connect: 'lower',
+    range: {
+      'min': 0,
+      'max': 10
+    },
+    step: 1,
+    format: {
+      from: function (value) {
+        return Number(parseInt(value));
+      },
+      to: function (value) {
+        return parseInt(value).toString();
+      }
+    },
+    tooltips: true
+  });
+  speedSlider.noUiSlider.on('change', function (values) {
+    speed = [parseInt(values[0])];
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+    var milliseconds = (maxSpeed - speed) * speedMultiplier;
+    console.log("Speed", speed, ",", milliseconds, "ms");
+    if (speed > 0) {
+      intervalId = setInterval(changeElement, milliseconds);
+      document.getElementById('start').classList.add("started");
+      document.getElementById('stop').classList.remove("stopped");
+    } else {
+      document.getElementById('start').classList.remove("started");
+      document.getElementById('stop').classList.add("stopped");
+    }
+  });
+
 });
 
 // sidebar open-close
@@ -49,11 +99,6 @@ document.getElementById('achtergrond').addEventListener('change', function () {
   document.getElementById('playground').style = 'background-color:' + document.getElementById('achtergrond').value;
 });
 
-// snelheid
-document.getElementById('snelheid').addEventListener('change', function () {
-  speed = document.getElementById('snelheid').value;
-});
-
 // richting: L(eft), R(ight), D(own), U(p), A(ll)
 document.getElementById('richting').addEventListener('change', function () {
   slideDirection = document.getElementById('richting').value;
@@ -61,14 +106,26 @@ document.getElementById('richting').addEventListener('change', function () {
 
 // start
 document.getElementById('start').addEventListener('click', function () {
-  // TODO start animation
-  // temporary
-  changeElement();
+  if (speed > 0) {
+    document.getElementById('start').classList.add("started");
+    document.getElementById('stop').classList.remove("stopped");
+  }
+  if (!intervalId && speed > 0) {
+    var milliseconds = (maxSpeed - speed) * speedMultiplier;
+    console.log("Speed", speed, ",", milliseconds, "ms");
+    intervalId = setInterval(changeElement, milliseconds);
+  } else {
+    // show once
+    changeElement();
+  }
 });
 
 // stop
 document.getElementById('stop').addEventListener('click', function () {
-  // TODO stop animation
+  document.getElementById('start').classList.remove("started");
+  document.getElementById('stop').classList.add("stopped");
+  clearInterval(intervalId);
+  intervalId = null;
 });
 
 function changeElement() {
