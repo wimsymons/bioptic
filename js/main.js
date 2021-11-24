@@ -11,6 +11,8 @@ var speed = defaultSpeed;
 var textColor = "#000000";
 var elemType = 'A';
 var slideDirection = 'L';
+var shortWords = [];
+var longWords = [];
 
 // on load: grootte + snelheid slider
 document.addEventListener('DOMContentLoaded', function () {
@@ -86,6 +88,14 @@ document.getElementById('openclose').addEventListener('click', function () {
 // inhoud: A(lphabetic)/S(hort)/L(ong)
 document.getElementById('inhoud').addEventListener('change', function () {
   elemType = document.getElementById('inhoud').value;
+  switch (elemType) {
+    case 'S':
+      loadWords(shortWords, 'kort.txt');
+      break;
+    case 'L':
+      loadWords(longWords, 'lang.txt');
+      break;
+  }
 });
 
 // voorgrond
@@ -153,10 +163,19 @@ function setText(element) {
       element.innerText = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
       break;
     case 'S':
-      element.innerText = "Kort";
+      element.innerText = shortWords[Math.floor(Math.random() * shortWords.length)];
       break;
     case 'L':
-      element.innerText = "Hottentottententententoonstelling";
+      element.innerText = longWords[Math.floor(Math.random() * longWords.length)];
       break;
   }
+}
+
+function loadWords(wordArray, wordFile) {
+  fetch(wordFile).then(function (response) {
+    response.text().then(function (text) {
+      wordArray.length = 0;
+      wordArray.push(...text.split('\n'));
+    });
+  });
 }
