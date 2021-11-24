@@ -2,7 +2,6 @@
 const alphabet = 'ABCDEFGHIJKLMNROPQRSTUVWXYZabcdefghijklmnropqrstuvwxyz0123456789';
 
 // variables
-var horizontalPercentageOffset = 0; // default L
 var fontSizeRange = [20, 50];
 var speed = 0;
 var textColor = "#000000";
@@ -10,7 +9,7 @@ var elemType = 'A';
 var slideDirection = 'L';
 
 // on load: grootte slider
-document.addEventListener('DOMContentLoaded', function (event) {
+document.addEventListener('DOMContentLoaded', function () {
   var slider = document.getElementById('grootte');
   noUiSlider.create(slider, {
     start: fontSizeRange,
@@ -32,20 +31,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
 // sidebar open-close
 document.getElementById('openclose').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle("sidebar-closed");
-});
-
-// oog: L(eft)/R(ight)
-document.getElementById('oog').addEventListener('change', function () {
-  switch (document.getElementById('oog').value) {
-    case 'L':
-      horizontalPercentageOffset = 0;
-      console.log("Left eye");
-      break;
-    case 'R':
-      horizontalPercentageOffset = 0.5;
-      console.log("Right eye");
-      break;
-  }
 });
 
 // inhoud: A(lphabetic)/S(hort)/L(ong)
@@ -93,12 +78,10 @@ function changeElement() {
   var randomFontSize = fontSizeRange[0] + Math.floor(Math.random() * (fontSizeRange[1] - fontSizeRange[0]));
 
   // 0-99% afhankelijk van oog
-  var randomPctX = horizontalPercentageOffset + (Math.random() * 0.5);
-  var randomX = Math.floor(randomPctX * playGroundElem.clientWidth);
+  var randomX = Math.floor(Math.random() * playGroundElem.clientWidth);
 
   // 0-99% hoogte
-  var randomPctY = Math.random();
-  var randomY = Math.floor(randomPctY * playGroundElem.clientHeight);
+  var randomY = Math.floor(Math.random() * playGroundElem.clientHeight);
   console.log("x = ", randomX, " y = ", randomX, " size = ", randomFontSize)
 
   // zet kleur, grootte, locatie
