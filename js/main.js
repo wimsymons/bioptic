@@ -1,18 +1,15 @@
 // constants
-const alphabet = 'ABCDEFGHIJKLMNROPQRSTUVWXYZabcdefghijklmnropqrstuvwxyz0123456789';
 const defaultSpeed = 5;
 const maxSpeed = 20;
 const speedMultiplier = 100;
 
 // variables
-var intervalId;
+var intervalId = null;
 var fontSizeRange = [30, 70];
 var speed = defaultSpeed;
 var textColor = "#000000";
-var elemType = 'A';
 var slideDirection = 'L';
-var shortWords = [];
-var longWords = [];
+var words;
 
 // on load: grootte + snelheid slider
 document.addEventListener('DOMContentLoaded', function () {
@@ -78,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  loadWords()
 });
 
 // sidebar open-close
@@ -85,17 +83,9 @@ document.getElementById('openclose').addEventListener('click', function () {
   document.getElementById('sidebar').classList.toggle("sidebar-closed");
 });
 
-// inhoud: A(lphabetic)/S(hort)/L(ong)
+// inhoud
 document.getElementById('inhoud').addEventListener('change', function () {
-  elemType = document.getElementById('inhoud').value;
-  switch (elemType) {
-    case 'S':
-      loadWords(shortWords, 'kort.txt');
-      break;
-    case 'L':
-      loadWords(longWords, 'lang.txt');
-      break;
-  }
+  loadWords();
 });
 
 // voorgrond
@@ -144,11 +134,9 @@ function changeElement() {
 
   var randomFontSize = fontSizeRange[0] + Math.floor(Math.random() * (fontSizeRange[1] - fontSizeRange[0]));
 
-  // 0-99% afhankelijk van oog
   var randomX = Math.floor(Math.random() * playGroundElem.clientWidth);
-
-  // 0-99% hoogte
   var randomY = Math.floor(Math.random() * playGroundElem.clientHeight);
+
   console.log("x = ", randomX, " y = ", randomX, " size = ", randomFontSize)
 
   // zet kleur, grootte, locatie
@@ -158,24 +146,18 @@ function changeElement() {
 }
 
 function setText(element) {
-  switch (elemType) {
-    case 'A':
-      element.innerText = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-      break;
-    case 'S':
-      element.innerText = shortWords[Math.floor(Math.random() * shortWords.length)];
-      break;
-    case 'L':
-      element.innerText = longWords[Math.floor(Math.random() * longWords.length)];
-      break;
+  if (words) {
+    element.innerText = words[Math.floor(Math.random() * words.length)];
   }
 }
 
-function loadWords(wordArray, wordFile) {
+function loadWords() {
+  var wordFile = document.getElementById('inhoud').value;
+  console.log("Loading words", wordFile);
   fetch(wordFile).then(function (response) {
     response.text().then(function (text) {
-      wordArray.length = 0;
-      wordArray.push(...text.split('\n'));
+      words = text.split('\n');
+      console.log("Loaded", words.length, "words");
     });
   });
 }
