@@ -8,8 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/vendor/nouislider-15.5.0.min.css">
+  <link rel="stylesheet" href="css/vendor/animate-stripped.css">
+  <link rel="stylesheet" href="css/main.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,8 +39,8 @@
     <div class="form-group">
       <label for="plaats">Plaats</label>
       <select id="plaats">
-        <option value="R" selected>Willekeurig</option>
-        <option value="C">Gecentreerd</option>
+        <option value="R">Willekeurig</option>
+        <option value="C" selected>Gecentreerd</option>
       </select>
     </div>
     <div class="form-group">
@@ -54,14 +55,15 @@
       <label for="snelheid">Snelheid</label>
       <div id="snelheid"></div>
     </div>
-    <div class="form-group hidden">
+    <div class="form-group">
       <label for="richting">Richting</label>
       <select id="richting">
+        <option value="N" selected>Geen</option>
         <option value="L">Links</option>
         <option value="R">Rechts</option>
         <option value="D">Onder</option>
         <option value="U">Boven</option>
-        <option value="A" selected>Alle</option>
+        <option value="A">Alle</option>
       </select>
     </div>
     <div class="form-group">

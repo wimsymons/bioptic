@@ -12,14 +12,17 @@ const fontSizeMax = 100;
 const fontSizeStep = 5;
 const initialFontSizeRange = [30, 70];
 
+const allAnimations = ['backInLeft', 'backInRight', 'backInDown', 'backInUp'];
+
 // variables
 var intervalId = null;
 var fontSizeRange = initialFontSizeRange;
 var speed = initialSpeed;
 var textColor = "#000000";
-var slideDirection = 'L';
-var contentLocation = 'R';
+var slideDirection = null;
+var contentLocation = 'C';
 var words;
+var animating = false;
 
 // on load: grootte + snelheid slider
 document.addEventListener('DOMContentLoaded', function () {
@@ -80,6 +83,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // set slow animation speed
+  document.documentElement.style.setProperty('--animate-duration', '4s');
+
   loadWords();
 });
 
@@ -111,7 +117,7 @@ document.getElementById('plaats').addEventListener('change', function () {
   contentLocation = document.getElementById('plaats').value;
 });
 
-// richting: L(eft), R(ight), D(own), U(p), A(ll)
+// richting: N(one), L(eft), R(ight), D(own), U(p), A(ll)
 document.getElementById('richting').addEventListener('change', function () {
   slideDirection = document.getElementById('richting').value;
 });
@@ -145,6 +151,11 @@ document.getElementById('stop').addEventListener('click', function () {
 });
 
 function changeElement() {
+  // don't change while animating
+  if (animating) {
+    return;
+  }
+
   var elem = document.getElementById('element');
   let playGroundElem = document.getElementById('playground');
 
@@ -157,6 +168,7 @@ function changeElement() {
   elem.style.color = textColor;
   elem.style.fontSize = fontSize + 'px';
 
+  // set (end) position
   var x, y;
   if (contentLocation === 'C') {
     x = Math.floor(0.5 * (playGroundElem.clientWidth - elem.clientWidth));
@@ -164,10 +176,11 @@ function changeElement() {
   } else if (contentLocation === 'R') {
     x = Math.floor(Math.random() * (playGroundElem.clientWidth - elem.clientWidth));
     y = Math.floor(Math.random() * (playGroundElem.clientHeight - elem.clientHeight));
-
   }
   elem.style.top = y + 'px';
   elem.style.left = x + 'px';
+
+  animateSlide(elem);
 }
 
 function setText(element) {
@@ -192,4 +205,45 @@ function loadWords() {
       changeElement();
     });
   });
+}
+
+function animateSlide(elem) {
+  var animation = null;
+
+  switch (slideDirection) {
+    case 'L':
+      animation = 'backInLeft';
+      break;
+    case 'R':
+      animation = 'backInRight';
+      break;
+    case 'U':
+      animation = 'backInDown';
+      break;
+    case 'D':
+      animation = 'backInUp';
+      break;
+    case 'A':
+      animation = allAnimations[Math.floor(Math.random() * allAnimations.length)];
+      break;
+  }
+
+  if (animation === null) {
+    return;
+  }
+
+  console.log('Animating with', animation);
+
+  const animationName = 'animate__' + animation;
+
+  animating = true;
+  elem.classList.add('animate__animated', animationName);
+
+  function handleAnimationEnd(event) {
+    event.stopPropagation();
+    animating = false;
+    elem.classList.remove('animate__animated', animationName);
+  }
+
+  elem.addEventListener('animationend', handleAnimationEnd, {once: true});
 }
