@@ -7,6 +7,11 @@ const speedStep = 1;
 const initialSpeed = 5;
 const speedMultiplier = 1000;
 
+const initialAnimSpeed = 4;
+const animSpeedMin = 1;
+const animSpeedMax = 16;
+const animSpeedStep = 1;
+
 const fontSizeMin = 0;
 const fontSizeMax = 100;
 const fontSizeStep = 5;
@@ -83,9 +88,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // set slow animation speed
-  document.documentElement.style.setProperty('--animate-duration', '4s');
+  var animSpeedSlider = document.getElementById('animatie-snelheid');
+  noUiSlider.create(animSpeedSlider, {
+    start: initialAnimSpeed,
+    connect: 'lower',
+    range: {
+      'min': animSpeedMin,
+      'max': animSpeedMax
+    },
+    step: animSpeedStep,
+    format: {
+      from: function (value) {
+        return Number(parseInt(value));
+      },
+      to: function (value) {
+        return parseInt(value) + 's';
+      }
+    },
+    tooltips: true
+  });
+  animSpeedSlider.noUiSlider.on('change', function (values) {
+    setAnimSpeed(parseInt(values[0]));
+  });
 
+  setAnimSpeed(initialAnimSpeed);
   loadWords();
 });
 
@@ -246,4 +272,9 @@ function animateSlide(elem) {
   }
 
   elem.addEventListener('animationend', handleAnimationEnd, {once: true});
+}
+
+function setAnimSpeed(animSpeed) {
+  // set animation speed
+  document.documentElement.style.setProperty('--animate-duration', '' + animSpeed + 's');
 }
